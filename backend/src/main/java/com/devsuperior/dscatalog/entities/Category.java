@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public class Category implements Serializable {
@@ -9,6 +10,12 @@ public class Category implements Serializable {
 		private String name;
 		
 		public Category() {
+		}
+
+		public Category(Long id, String name) {
+			super();
+			this.id = id;
+			this.name = name;
 		}
 
 		public Long getId() {
@@ -26,6 +33,7 @@ public class Category implements Serializable {
 		public void setName(String name) {
 			this.name = name;
 		}
+		
 
 		@Override
 		public int hashCode() {
