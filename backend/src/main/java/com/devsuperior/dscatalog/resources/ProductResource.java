@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.devsuperior.dscatalog.dto.CategoryDTO;
-import com.devsuperior.dscatalog.services.CategoryService;
+import com.devsuperior.dscatalog.dto.ProductDTO;
+import com.devsuperior.dscatalog.services.ProductService;
 
 
 @RestController
-@RequestMapping(value = "/categories")
-public class CategoryResource {
+@RequestMapping(value = "/products")
+public class ProductResource {
 
 	@Autowired
-	private CategoryService service;
+	private ProductService service;
 	
 	@GetMapping
-//	public ResponseEntity<List<CategoryDTO>> findAll()
-	public ResponseEntity<Page<CategoryDTO>> findAll(
+//	public ResponseEntity<List<ProductDTO>> findAll()
+	public ResponseEntity<Page<ProductDTO>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
@@ -40,21 +40,21 @@ public class CategoryResource {
 	{
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		
-		//List<CategoryDTO> list = service.findAll();
-		Page<CategoryDTO> list = service.findAllPaged(pageRequest);
+		//List<ProductDTO> list = service.findAll();
+		Page<ProductDTO> list = service.findAllPaged(pageRequest);
 		
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id)
+	public ResponseEntity<ProductDTO> findById(@PathVariable Long id)
 	{
-		CategoryDTO dto = service.findById(id);
+		ProductDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
 
 	@PostMapping
-	public ResponseEntity<CategoryDTO> insert(@RequestBody  CategoryDTO dto) {
+	public ResponseEntity<ProductDTO> insert(@RequestBody  ProductDTO dto) {
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
@@ -62,7 +62,7 @@ public class CategoryResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody  CategoryDTO dto) {
+	public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody  ProductDTO dto) {
 		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}
@@ -70,7 +70,7 @@ public class CategoryResource {
 /**
  * 	
  * Como o corpo da resposta será vazio, ao invés de 
- * ResponseEntity<CategoryDTO>, pode usar 
+ * ResponseEntity<ProductDTO>, pode usar 
  * ResponseEntity<Void> ( com V maiúsculo ).
  */
 	@DeleteMapping(value = "/{id}")
