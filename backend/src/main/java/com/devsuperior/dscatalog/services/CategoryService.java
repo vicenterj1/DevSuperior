@@ -9,6 +9,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,16 +66,34 @@ public class CategoryService {
 	}
 
 	public void delete(Long id) {
-		try {
-		repository.deleteById(id);
-		}
-		catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("CV - Id not found " + id);
-		}
-		catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("CV - Integrity violation");
-		}
-	
+			try {
+			repository.deleteById(id);
+			}
+			catch (EmptyResultDataAccessException e) {
+				throw new ResourceNotFoundException("CV - Id not found " + id);
+			}
+			catch (DataIntegrityViolationException e) {
+				throw new DatabaseException("CV - Integrity violation");
+			}
+		
+		
 	}
+
+	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		//return null;
+		
+		//List<Category> list = repository.findAll();
+		Page<Category> list = repository.findAll(pageRequest);
+
+		// List<CategoryDTO> listDTO = list.stream().map(x -> new
+		// CategoryDTO(x)).collect(Collectors.toList());
+
+		//return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
+		return list.map(x -> new CategoryDTO(x));
+
+	}
+
+	
 
 }
