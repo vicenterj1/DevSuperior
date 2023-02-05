@@ -5,6 +5,7 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,23 +30,31 @@ public class CategoryResource {
 	@Autowired
 	private CategoryService service;
 	
+//	@GetMapping
+////	public ResponseEntity<List<CategoryDTO>> findAll()
+//	public ResponseEntity<Page<CategoryDTO>> findAll(
+//			@RequestParam(value = "page", defaultValue = "0") Integer page,
+//			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+//			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+//			@RequestParam(value = "direction", defaultValue = "ASC") String direction
+//			)
+//	{
+//		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+//		
+//		//List<CategoryDTO> list = service.findAll();
+//		Page<CategoryDTO> list = service.findAllPaged(pageRequest);
+//		
+//		return ResponseEntity.ok().body(list);
+//	}
+
 	@GetMapping
-//	public ResponseEntity<List<CategoryDTO>> findAll()
-	public ResponseEntity<Page<CategoryDTO>> findAll(
-			@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction
-			)
+	public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable)
 	{
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		
-		//List<CategoryDTO> list = service.findAll();
-		Page<CategoryDTO> list = service.findAllPaged(pageRequest);
-		
+		Page<CategoryDTO> list = service.findAllPaged(pageable);
 		return ResponseEntity.ok().body(list);
 	}
-
+	
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id)
 	{
