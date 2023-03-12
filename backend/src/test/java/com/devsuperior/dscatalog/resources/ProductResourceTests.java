@@ -54,7 +54,6 @@ public class ProductResourceTests {
 		ResultActions result = mockMvc.perform(get("/products")
 									.accept(MediaType.APPLICATION_JSON)
 				);
-				
 		result.andExpect(status().isOk());
 	}
 	
