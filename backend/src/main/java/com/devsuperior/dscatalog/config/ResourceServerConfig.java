@@ -36,11 +36,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-			
+		
+		http.csrf().disable();
+		
 		//H2 - para liberar o banco de dados de autorização
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
+		
 		
 		
 		http.authorizeRequests()
@@ -48,7 +51,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		.antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
 		.antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("OPERATOR","ADMIN")
 		.antMatchers(ADMIN).hasRole("ADMIN")
-		.anyRequest().authenticated();
+		.anyRequest().authenticated()
+		;
 		
 	}
 

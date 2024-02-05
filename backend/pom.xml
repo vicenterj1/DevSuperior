@@ -17,6 +17,7 @@
 	
 	<properties>
 		<java.version>11</java.version>
+		<!-- infra de segurança -->
 		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 	</properties>
 	
@@ -60,6 +61,7 @@
 			</exclusions>
 		</dependency>
 		
+		<!--  segurança - inicio -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -69,6 +71,7 @@
 			<groupId>org.springframework.security.oauth.boot</groupId>
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 		</dependency>
+		<!--  segurança - fim     -->
 		
 	</dependencies>
 	
