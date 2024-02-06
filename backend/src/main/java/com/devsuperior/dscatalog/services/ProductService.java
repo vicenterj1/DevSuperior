@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.services;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class ProductService {
 	private ProductRepository repository;
 
 	@Autowired
-	private CategoryRepository categoryRespository;
+	private CategoryRepository categoryRepository;
 	
 	@Transactional(readOnly = true)
 	public List<ProductDTO> findAll() {
@@ -109,12 +110,15 @@ public class ProductService {
 		
 		categoryId = (categoryId == null)? 0: categoryId;
 		
-		//expressão condicional ternária pois pode não passar a categoria procurada
-		Category category = (categoryId == 0)? null : categoryRespository.getOne(categoryId);
-		//Page<Product> list = repository.findAll(pageable);
 		
+		//expressão condicional ternária pois pode não passar a categoria procurada
+		//Category category = (categoryId == 0)? null : categoryRepository.getOne(categoryId);
+		//trabalhando com lista de categorias
+		List<Category> categories = (categoryId == 0)? null : Arrays.asList(categoryRepository.getOne(categoryId));
+		
+		//Page<Product> list = repository.findAll(pageable);
 		//método customizado
-		Page<Product> list = repository.find(category, name, pageable);
+		Page<Product> list = repository.find(categories, name, pageable);
 		return list.map(x -> new ProductDTO(x));
 	}
 
@@ -130,7 +134,7 @@ public class ProductService {
 		for (CategoryDTO catDto : dto.getCategories()) {
 			//getOne - não vai no banco de dados porque 
 			// neste momento estamos transferindo valores do DTO
-			Category category = categoryRespository.getOne(catDto.getId());
+			Category category = categoryRepository.getOne(catDto.getId());
 			entity.getCategories().add(category);
 		}
 	};
