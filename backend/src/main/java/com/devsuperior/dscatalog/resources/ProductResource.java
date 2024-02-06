@@ -47,14 +47,17 @@ public class ProductResource {
 //	}
 
 	@GetMapping
-	public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
-		Page<ProductDTO> list = service.findAllPaged(pageable);
+	public ResponseEntity<Page<ProductDTO>> findAll(Long categoryId, Pageable pageable){
+		System.out.println(pageable.toString());
+		System.out.println(categoryId);
+		Page<ProductDTO> list = service.findAllPaged(categoryId, pageable);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> findById(@PathVariable Long id)
 	{
+	
 		ProductDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
