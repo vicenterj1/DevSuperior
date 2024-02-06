@@ -12,8 +12,8 @@ import com.devsuperior.dscatalog.entities.Product;
 @Repository
 public interface ProductRepository extends JpaRepository <Product, Long> {
 	
-	@Query("SELECT obj FROM Product obj " // igual ao nome da entidade
+	@Query("SELECT DISTINCT obj FROM Product obj " // igual ao nome da entidade
 			+ "INNER JOIN obj.categories cats "  // join entre as tabelas pela relação das entidades  
-			+ "WHERE :category in cats")  
+			+ "WHERE (:category IS NULL or :category in cats) ")  
 	Page<Product> find(Category category, Pageable pageable);
 }
