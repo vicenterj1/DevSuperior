@@ -104,6 +104,7 @@ public class ProductService {
 
 	}
 	
+	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
 		//instanciando Category sem ir ao banco de dados
 		//só pegando o valor passado
@@ -118,8 +119,10 @@ public class ProductService {
 		
 		//Page<Product> list = repository.findAll(pageable);
 		//método customizado
-		Page<Product> list = repository.find(categories, name, pageable);
-		return list.map(x -> new ProductDTO(x));
+		Page<Product> page = repository.find(categories, name, pageable);
+		repository.findProductsWithCategories(page.getContent());
+		// usando construtor para retornar as categorias tbm.
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 	}
 
 
